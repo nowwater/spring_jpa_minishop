@@ -17,30 +17,33 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    //== 등록할 물건 카테고리 선택 ==//
     @GetMapping("/items/new")
     public String create(Model model){
         model.addAttribute("form", new Book());
         return "items/selectItem";
     }
 
-    @GetMapping("/items/new/album")
-    public String createAlbumForm(Model model){
-        model.addAttribute("form", new Album());
-        return "items/createAlbumForm";
+    //== 물건 별 등록 폼 ==//
+    @GetMapping("/items/new/{type}")
+    public String createAlbumForm(@PathVariable("type") String itemType, Model model){
+        if(itemType.equals("album")){
+            AlbumDTO dto = new AlbumDTO();
+            dto.setType(itemType);
+            model.addAttribute("form", dto);
+        } else if(itemType.equals("book")){
+            BookDTO dto = new BookDTO();
+            dto.setType(itemType);
+            model.addAttribute("form", dto);
+        } else{
+            MovieDTO dto = new MovieDTO();
+            dto.setType(itemType);
+            model.addAttribute("form", dto);
+        }
+        return "items/createItemForm";
     }
 
-    @GetMapping("/items/new/book")
-    public String createBookForm(Model model){
-        model.addAttribute("form", new Book());
-        return "items/createBookForm";
-    }
-
-    @GetMapping("/items/new/movie")
-    public String createMovieForm(Model model){
-        model.addAttribute("form", new Movie());
-        return "items/createMovieForm";
-    }
-
+    //== 새로운 물건 등록 ==//
     @PostMapping("/items/new/album")
     public String createAlbum(AlbumDTO albumDTO){
         Album album = new Album();
@@ -73,7 +76,7 @@ public class ItemController {
         return "items/itemList";
     }
 
-    //== 물품 정보 변경 ==//
+    //== 물품 정보 변경 폼 ==//
     @GetMapping("/items/edit/{itemId}")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model){
         Item item = itemService.findOne(itemId);
@@ -98,6 +101,8 @@ public class ItemController {
         }
         return "items/updateItemForm";
     }
+
+    //== 물품 정보 변경 ==//
     @PostMapping("items/edit/album")
     public String updateAlbum(AlbumDTO albumDTO){
         Album album = (Album)itemService.findOne(albumDTO.getId());
