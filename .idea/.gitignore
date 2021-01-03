@@ -1,0 +1,8 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../../../../../../:\Users\ggolo\Desktop\2020\2020 하반기\스프링부트(인프런)\실전 스프링부트\jpashop_practice\jpashop_practice\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/

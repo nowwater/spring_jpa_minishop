@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <span><h3>상품 등록</h3></span>
+    <div class="jumbotron">
+        <a class="btn btn-lg btn-secondary" href="http://localhost:8080/items/new/album">Album</a>
+        <a class="btn btn-lg btn-secondary" href="http://localhost:8080/items/new/book">Book</a>
+        <a class="btn btn-lg btn-secondary" href="http://localhost:8080/items/new/movie">Movie</a>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
