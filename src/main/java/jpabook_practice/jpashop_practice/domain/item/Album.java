@@ -15,7 +15,7 @@ public class Album extends Item {
     private String etc;
 
     public void createAlbum(AlbumDTO album){
-        super.change(album.getName(), album.getPrice(), album.getStockQuantity(), "album");
+        super.change(album.getId(), album.getName(), album.getPrice(), album.getStockQuantity(), "album");
         this.artist = album.getArtist();
         this.etc = album.getEtc();
     }

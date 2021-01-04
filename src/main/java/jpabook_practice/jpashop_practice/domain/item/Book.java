@@ -15,7 +15,7 @@ public class Book extends jpabook_practice.jpashop_practice.domain.item.Item {
     private String isbn;
 
     public void createBook(BookDTO book){
-        super.change(book.getName(), book.getPrice(), book.getStockQuantity(), "book");
+        super.change(book.getId(), book.getName(), book.getPrice(), book.getStockQuantity(), "book");
         this.author = book.getAuthor();
         this.isbn = book.getIsbn();
     }

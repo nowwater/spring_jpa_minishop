@@ -14,7 +14,7 @@ public class Movie extends Item{
     private String actor;
 
     public void createMovie(MovieDTO movie){
-        super.change(movie.getName(), movie.getPrice(), movie.getStockQuantity(), "movie");
+        super.change(movie.getId(), movie.getName(), movie.getPrice(), movie.getStockQuantity(), "movie");
         this.director = movie.getDirector();
         this.actor = movie.getActor();
     }

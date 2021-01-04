@@ -27,7 +27,8 @@ public abstract class Item {
     private int stockQuantity;
     private String type;
 
-    public void change(String name, int price, int stockQuantity, String type){
+    public void change(Long id, String name, int price, int stockQuantity, String type){
+        this.id = id;
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
