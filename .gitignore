@@ -1,3 +1,7 @@
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 HELP.md
 .gradle
 build/
@@ -35,4 +39,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
