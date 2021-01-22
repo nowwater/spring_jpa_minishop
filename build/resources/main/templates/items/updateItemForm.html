@@ -1,55 +1,98 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="fragments/header :: header"/>
 <body>
-<div class="container">
+<div class="container" th:object="${form}">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <form th:object="${form}" method="post">
-        <!-- id -->
-        <input type="hidden" th:field="*{id}" />
-        <div class="form-group">
-            <label th:for="name">상품명</label>
-            <input type="text" th:field="*{name}" class="form-control"
-                   placeholder="이름을 입력하세요" />
-        </div>
-        <div class="form-group">
-            <label th:for="price">가격</label>
-            <input type="number" th:field="*{price}" class="form-control"
-                   placeholder="가격을 입력하세요" />
-        </div>
-        <div class="form-group">
-            <label th:for="stockQuantity">수량</label>
-            <input type="number" th:field="*{stockQuantity}" class="formcontrol" placeholder="수량을 입력하세요" />
-        </div>
-        <div class="form-group">
-            <p th:if="${form.getType().equals('album')}">
-            <label th:for="author">아티스트</label>
-            <input type="text" th:field="*{artist}" class="form-control"
-                   placeholder="아티스트를 입력하세요" />
+    <div th:if="${form.getType().equals('album')}">
+        <form th:action="@{/items/new/album}" method="post">
+            <!-- id ,, form을 if 분기해서 div로 나눠버리자-->
+            <input type="hidden" th:field="*{id}"/>
+            <div class="form-group">
+                <label th:for="name">상품명</label>
+                <input type="text" th:field="*{name}" class="form-control"
+                       placeholder="이름을 입력하세요"/>
+            </div>
+            <div class="form-group">
+                <label th:for="price">가격</label>
+                <input type="number" th:field="*{price}" class="form-control"
+                       placeholder="가격을 입력하세요"/>
+            </div>
+            <div class="form-group">
+                <label th:for="stockQuantity">수량</label>
+                <input type="number" th:field="*{stockQuantity}" class="formcontrol" placeholder="수량을 입력하세요"/>
+            </div>
+            <div class="form-group">
+                <label th:for="author">아티스트</label>
+                <input type="text" th:field="*{artist}" class="form-control"
+                       placeholder="아티스트를 입력하세요"/>
                 <label th:for="isbn">설명</label>
                 <input type="text" th:field="*{etc}" class="form-control"
-                       placeholder="설명을 입력하세요" />
-            </p>
-            <p th:if="${form.getType().equals('book')}">
+                       placeholder="설명을 입력하세요"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <div th:if="${form.getType().equals('book')}">
+        <form th:action="@{/items/new/book}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <div class="form-group">
+                <label th:for="name">상품명</label>
+                <input type="text" th:field="*{name}" class="form-control"
+                       placeholder="이름을 입력하세요"/>
+            </div>
+            <div class="form-group">
+                <label th:for="price">가격</label>
+                <input type="number" th:field="*{price}" class="form-control"
+                       placeholder="가격을 입력하세요"/>
+            </div>
+            <div class="form-group">
+                <label th:for="stockQuantity">수량</label>
+                <input type="number" th:field="*{stockQuantity}" class="formcontrol" placeholder="수량을 입력하세요"/>
+            </div>
+            <div class="form-group">
                 <label th:for="author">저자</label>
                 <input type="text" th:field="*{author}" class="form-control"
-                       placeholder="저자를 입력하세요" />
+                       placeholder="저자를 입력하세요"/>
                 <label th:for="isbn">ISBN</label>
                 <input type="text" th:field="*{isbn}" class="form-control"
-                       placeholder="ISBN을 입력하세요" />
-            </p>
-            <p th:if="${form.getType().equals('movie')}">
+                       placeholder="ISBN을 입력하세요"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <div th:if="${form.getType().equals('movie')}">
+        <form th:action="@{/items/new/movie}" method="post">
+            <!-- id -->
+            <input type="hidden" th:field="*{id}"/>
+            <div class="form-group">
+                <label th:for="name">상품명</label>
+                <input type="text" th:field="*{name}" class="form-control"
+                       placeholder="이름을 입력하세요"/>
+            </div>
+            <div class="form-group">
+                <label th:for="price">가격</label>
+                <input type="number" th:field="*{price}" class="form-control"
+                       placeholder="가격을 입력하세요"/>
+            </div>
+            <div class="form-group">
+                <label th:for="stockQuantity">수량</label>
+                <input type="number" th:field="*{stockQuantity}" class="formcontrol" placeholder="수량을 입력하세요"/>
+            </div>
+            <div class="form-group">
                 <label th:for="author">감독</label>
                 <input type="text" th:field="*{director}" class="form-control"
-                       placeholder="감독을 입력하세요" />
-                <label th:for="isbn">주연배우</label>
+                       placeholder="감독을 입력하세요"/>
+                <label th:for="isbn">배우</label>
                 <input type="text" th:field="*{actor}" class="form-control"
-                       placeholder="주연배우를 입력하세요" />
-            </p>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <div th:replace="fragments/footer :: footer" />
+                       placeholder="배우를 입력하세요"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
 </html>
