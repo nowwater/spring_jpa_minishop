@@ -1,44 +1,58 @@
-jpabook_practice/jpashop_practice/service/MemberService.java
- jpabook_practice.jpashop_practice.service.MemberService
-jpabook_practice/jpashop_practice/controller/OrderController.java
- jpabook_practice.jpashop_practice.controller.OrderController
+jpabook_practice/jpashop_practice/domain/item/Item.java
+ jpabook_practice.jpashop_practice.domain.item.Item
 jpabook_practice/jpashop_practice/controller/HomeController.java
  jpabook_practice.jpashop_practice.controller.HomeController
 jpabook_practice/jpashop_practice/repository/MemberRepository.java
  jpabook_practice.jpashop_practice.repository.MemberRepository
+jpabook_practice/jpashop_practice/domain/item/Book.java
+ jpabook_practice.jpashop_practice.domain.item.Book
 jpabook_practice/jpashop_practice/JpashopPracticeApplication.java
  jpabook_practice.jpashop_practice.JpashopPracticeApplication
 jpabook_practice/jpashop_practice/controller/MemberDTO.java
  jpabook_practice.jpashop_practice.controller.MemberDTO
-jpabook_practice/jpashop_practice/controller/MemberForm.java
- jpabook_practice.jpashop_practice.controller.MemberForm
-jpabook_practice/jpashop_practice/domain/Member.java
- jpabook_practice.jpashop_practice.domain.Member
-jpabook_practice/jpashop_practice/exception/NotEnoughStockException.java
- jpabook_practice.jpashop_practice.exception.NotEnoughStockException
-jpabook_practice/jpashop_practice/domain/Address.java
- jpabook_practice.jpashop_practice.domain.Address
-jpabook_practice/jpashop_practice/controller/MemberController.java
- jpabook_practice.jpashop_practice.controller.MemberController
 jpabook_practice/jpashop_practice/domain/item/Movie.java
  jpabook_practice.jpashop_practice.domain.item.Movie
 jpabook_practice/jpashop_practice/domain/item/MovieDTO.java
  jpabook_practice.jpashop_practice.domain.item.MovieDTO
+jpabook_practice/jpashop_practice/exception/NotEnoughStockException.java
+ jpabook_practice.jpashop_practice.exception.NotEnoughStockException
 jpabook_practice/jpashop_practice/controller/ItemController.java
  jpabook_practice.jpashop_practice.controller.ItemController
+jpabook_practice/jpashop_practice/domain/OrderItem.java
+ jpabook_practice.jpashop_practice.domain.OrderItem
+jpabook_practice/jpashop_practice/domain/Order.java
+ jpabook_practice.jpashop_practice.domain.Order
 jpabook_practice/jpashop_practice/domain/item/AlbumDTO.java
  jpabook_practice.jpashop_practice.domain.item.AlbumDTO
 jpabook_practice/jpashop_practice/domain/item/Album.java
  jpabook_practice.jpashop_practice.domain.item.Album
 jpabook_practice/jpashop_practice/service/ItemService.java
  jpabook_practice.jpashop_practice.service.ItemService
-jpabook_practice/jpashop_practice/domain/item/BookDTO.java
- jpabook_practice.jpashop_practice.domain.item.BookDTO
-jpabook_practice/jpashop_practice/domain/item/Book.java
- jpabook_practice.jpashop_practice.domain.item.Book
 jpabook_practice/jpashop_practice/repository/ItemRepository.java
  jpabook_practice.jpashop_practice.repository.ItemRepository
-jpabook_practice/jpashop_practice/domain/item/Item.java
- jpabook_practice.jpashop_practice.domain.item.Item
-jpabook_practice/jpashop_practice/domain/item/ItemDTO.java
- jpabook_practice.jpashop_practice.domain.item.ItemDTO
+jpabook_practice/jpashop_practice/domain/Address.java
+ jpabook_practice.jpashop_practice.domain.Address
+jpabook_practice/jpashop_practice/controller/MemberForm.java
+ jpabook_practice.jpashop_practice.controller.MemberForm
+jpabook_practice/jpashop_practice/domain/Member.java
+ jpabook_practice.jpashop_practice.domain.Member
+jpabook_practice/jpashop_practice/domain/Delivery.java
+ jpabook_practice.jpashop_practice.domain.Delivery
+jpabook_practice/jpashop_practice/domain/OrderStatus.java
+ jpabook_practice.jpashop_practice.domain.OrderStatus
+jpabook_practice/jpashop_practice/domain/DeliveryStatus.java
+ jpabook_practice.jpashop_practice.domain.DeliveryStatus
+jpabook_practice/jpashop_practice/domain/item/BookDTO.java
+ jpabook_practice.jpashop_practice.domain.item.BookDTO
+jpabook_practice/jpashop_practice/service/MemberService.java
+ jpabook_practice.jpashop_practice.service.MemberService
+jpabook_practice/jpashop_practice/repository/OrderRepository.java
+ jpabook_practice.jpashop_practice.repository.OrderRepository
+jpabook_practice/jpashop_practice/repository/OrderSearch.java
+ jpabook_practice.jpashop_practice.repository.OrderSearch
+jpabook_practice/jpashop_practice/controller/MemberController.java
+ jpabook_practice.jpashop_practice.controller.MemberController
+jpabook_practice/jpashop_practice/service/OrderService.java
+ jpabook_practice.jpashop_practice.service.OrderService
+jpabook_practice/jpashop_practice/controller/OrderController.java
+ jpabook_practice.jpashop_practice.controller.OrderController
