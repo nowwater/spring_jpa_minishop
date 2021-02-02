@@ -1,5 +1,6 @@
 package jpabook_practice.jpashop_practice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jpabook_practice.jpashop_practice.domain.item.Item;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,29 +10,30 @@ import lombok.Setter;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
-// Order°ú Item °£¿¡ ManyToMany °ü°Ô¸¦ OneToMany ·Î ÂÉ°³±â À§ÇØ
-// Áß°£¿¡ ¸¸µç ¿£Æ¼Æ¼
+// Orderê³¼ Item ê°„ì— ManyToMany ê´€ê²Œë¥¼ OneToMany ë¡œ ìª¼ê°œê¸° ìœ„í•´
+// ì¤‘ê°„ì— ë§Œë“  ì—”í‹°í‹°
 @Entity
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // ºó »ı¼ºÀÚ »ç¿ë x
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // ë¹ˆ ìƒì„±ì ì‚¬ìš© x
 public class OrderItem {
     @Id @GeneratedValue
-    @Column(name="order_item_id") // PK ÀÌ¸§
+    @Column(name="order_item_id") // PK ì´ë¦„
     private Long id;
     
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="item_id")
     private Item item;
-    
+
+    @JsonIgnore // API ì—ì„œ Orderì™€ ì–‘ë°©í–¥ ì—°ê´€ê´€ê³„ì— ì¡í˜€ë²„ë¦¼ -> í•œìª½ì€ ignore ì‹œì¼œì¤˜ì•¼í•¨
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="order_id")
     private Order order;
 
-    private int orderPrice; // ÁÖ¹® °¡°İ
-    private int count; // ÁÖ¹® ¼ö·®
+    private int orderPrice; // ì£¼ë¬¸ ê°€ê²©
+    private int count; // ì£¼ë¬¸ ìˆ˜ëŸ‰
 
-    //==»ı¼º ¸Ş¼­µå==//
-    //¾ó¸¶¿¡ ¸î°³ »ò´ÂÁö
+    //==ìƒì„± ë©”ì„œë“œ==//
+    //ì–¼ë§ˆì— ëª‡ê°œ ìƒ€ëŠ”ì§€
     public static OrderItem createOrderItem(Item item, int orderPrice, int count){
         OrderItem orderItem = new OrderItem();
         orderItem.setItem(item);
@@ -41,14 +43,14 @@ public class OrderItem {
         return orderItem;
     }
 
-    //==ºñÁî´Ï½º ·ÎÁ÷==//
+    //==ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§==//
     public void cancel() {
         getItem().addStock(count);
     }
 
-    //==Á¶È¸ ·ÎÁ÷==//
+    //==ì¡°íšŒ ë¡œì§==//
     /*
-    ÁÖ¹®»óÇ° ÀüÃ¼ °¡°Ü Á¶È¸
+    ì£¼ë¬¸ìƒí’ˆ ì „ì²´ ê°€ê²¨ ì¡°íšŒ
      */
     public int getTotalPrice() {
         return getOrderPrice() * getCount();

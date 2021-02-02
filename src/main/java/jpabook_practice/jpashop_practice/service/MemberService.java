@@ -57,6 +57,6 @@ public class MemberService {
     @Transactional
     public void update(Long id, String name) {
         Member member = memberRepository.findOne(id);
-        member.setName(name); // 영속 상태의 member으 ㅣ이름을 바꿈 -> @Transactional AOP 가 끝나는 시점에 커밋. 그 때 JPA가 플러시, 영속성 컨텍스트 커밋.  DB 커밋!
+        member.setName(name); // 영속 상태의 member의 이름을 바꿈 -> @Transactional AOP 가 끝나는 시점에 커밋. 그 때 JPA가 플러시, 영속성 컨텍스트 커밋.  DB 커밋!
     }
 }

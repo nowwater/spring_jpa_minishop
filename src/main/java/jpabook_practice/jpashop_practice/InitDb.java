@@ -11,18 +11,18 @@ import javax.persistence.EntityManager;
 @RequiredArgsConstructor
 public class InitDb {
     private final InitService initService;
-    @PostConstruct // ½ºÇÁ¸µ ºóÀÌ ´Ù ¿Ã¶ó¿À°í ³ª¸é ½ºÇÁ¸µÀÌ È£ÃâÇØÁÜ, ¶óÀÌÇÁ»çÀÌÅ¬ÀÌ Á¸ÀçÇØ¼­ Æ®·£Àè¼ÇÀ» Àû¿ë½ÃÅ°´Â °ÍÀÌ Àß ¾ÈµÈ´Ù. µû¶ó¼­ ÃÊ±âÈ­ÇØÁÖ´Â ¸Ş¼Òµå¸¦ ½ÇÇàÇØÁÖ±â¸¸ÇÑ´Ù.
+    @PostConstruct  // ìŠ¤í”„ë§ ë¹ˆì´ ë‹¤ ì˜¬ë¼ì˜¤ê³  ë‚˜ë©´ ìŠ¤í”„ë§ì´ í˜¸ì¶œí•´ì¤Œ, ë¼ì´í”„ì‚¬ì´í´ì´ ì¡´ì¬í•´ì„œ íŠ¸ëœì­ì…˜ì„ ì ìš©ì‹œí‚¤ëŠ” ê²ƒì´ ì˜ ì•ˆëœë‹¤. ë”°ë¼ì„œ ì´ˆê¸°í™”í•´ì£¼ëŠ” ë©”ì†Œë“œë¥¼ ì‹¤í–‰í•´ì£¼ê¸°ë§Œí•œë‹¤.
     public void init() {
         initService.dbInit1();
         initService.dbInit2();
     }
     @Component
-    @Transactional
+    @Transactional // ë”°ë¼ì„œ ë³„ë„ì˜ ë¹ˆìœ¼ë¡œ ë“±ë¡í•´ë†”ì•¼í•¨
     @RequiredArgsConstructor
     static class InitService {
         private final EntityManager em;
         public void dbInit1() {
-            Member member = createMember("userA", "¼­¿ï", "1", "1111");
+            Member member = createMember("userA", "ì„œìš¸", "1", "1111");
             em.persist(member);
             Book book1 = createBook("JPA1 BOOK", 10000, 100);
             em.persist(book1);
@@ -35,7 +35,7 @@ public class InitDb {
             em.persist(order);
         }
         public void dbInit2() {
-            Member member = createMember("userB", "ÁøÁÖ", "2", "2222");
+            Member member = createMember("userB", "ì§„ì£¼", "2", "2222");
             em.persist(member);
             Book book1 = createBook("SPRING1 BOOK", 20000, 200);
             em.persist(book1);

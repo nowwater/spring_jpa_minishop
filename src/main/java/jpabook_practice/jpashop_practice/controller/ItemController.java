@@ -17,14 +17,14 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    //== µî·ÏÇÒ ¹°°Ç Ä«Å×°í¸® ¼±ÅÃ ==//
+    //== ë“±ë¡í•  ë¬¼ê±´ ì¹´í…Œê³ ë¦¬ ì„ íƒ ==//
     @GetMapping("/items/new")
     public String create(Model model){
         model.addAttribute("form", new Book());
         return "items/selectItem";
     }
 
-    //== ¹°°Ç º° µî·Ï Æû ==//
+    //== ë¬¼ê±´ ë³„ ë“±ë¡ í¼ ==//
     @GetMapping("/items/new/{type}")
     public String createAlbumForm(@PathVariable("type") String itemType, Model model){
         if(itemType.equals("album")){
@@ -43,7 +43,7 @@ public class ItemController {
         return "items/createItemForm";
     }
 
-    //== »õ·Î¿î ¹°°Ç µî·Ï ==//
+    //== ìƒˆë¡œìš´ ë¬¼ê±´ ë“±ë¡ ==//
     @PostMapping("/items/new/album")
     public String createAlbum(AlbumDTO albumDTO){
         Album album = new Album();
@@ -68,7 +68,7 @@ public class ItemController {
         return "redirect:/";
     }
 
-    //== ¹°Ç° ¸ñ·Ï È®ÀÎ ==//
+    //== ë¬¼í’ˆ ëª©ë¡ í™•ì¸ ==//
     @GetMapping("/items")
     public String list(Model model){
         List<Item> items = itemService.findItems();
@@ -76,7 +76,7 @@ public class ItemController {
         return "items/itemList";
     }
 
-    //== ¹°Ç° Á¤º¸ º¯°æ Æû ==//
+    //== ë¬¼í’ˆ ì •ë³´ ë³€ê²½ í¼ ==//
     @GetMapping("/items/edit/{itemId}")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model){
         Item item = itemService.findOne(itemId);
@@ -102,7 +102,7 @@ public class ItemController {
         return "items/updateItemForm";
     }
 
-    //== ¹°Ç° Á¤º¸ º¯°æ ==//
+    //== ë¬¼í’ˆ ì •ë³´ ë³€ê²½ ==//
     @PostMapping("items/edit/album")
     public String updateAlbum(AlbumDTO albumDTO){
         Album album = (Album)itemService.findOne(albumDTO.getId());

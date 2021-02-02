@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class OrderSearch {
-    private String memberName; // È¸¿ø ÀÌ¸§
-    private OrderStatus orderStatus; // ÁÖ¹® »óÅÂ(ORDER, CANCEL)
+    private String memberName; // íšŒì› ì´ë¦„
+    private OrderStatus orderStatus; // ì£¼ë¬¸ ìƒí…Œ(ORDER, CANCEL)
 
 }

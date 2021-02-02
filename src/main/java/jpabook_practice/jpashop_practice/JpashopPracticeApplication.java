@@ -1,7 +1,10 @@
 package jpabook_practice.jpashop_practice;
 
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import org.hibernate.Hibernate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class JpashopPracticeApplication {
@@ -10,10 +13,24 @@ public class JpashopPracticeApplication {
 
 		SpringApplication.run(JpashopPracticeApplication.class, args);
 	}
-	// groupId : ÀÚ½ÅÀÇ ÇÁ·ÎÁ§Æ®¸¦ °íÀ¯ÇÏ°Ô ½Äº°ÇÏ°Ô ÇØÁÖ´Â°Í. ³»°¡ ÄÁÆ®·ÑÇÏ´Â domain name
-	// artifactId : Á¦Ç°ÀÇ ÀÌ¸§. ¹öÀü Á¤º¸¸¦ »ı·«ÇÑ jar ÆÄÀÏÀÇ ÀÌ¸§ÀÌ´Ù. ÇÁ·ÎÁ§Æ® ÀÌ¸§°ú µ¿ÀÏÇÏ°Ô ¼³Á¤ÇÑ´Ù. ¼Ò¹®ÀÚ¸¸ ÀÛ¼º, Æ¯¼ö¹®ÀÚx
-	// version : SNAPSHOT - °³¹ß¿ë, RELEASE - ¹èÆ÷¿ë, ¼ıÀÚ¿Í Á¡À» »ç¿ëÇØ ¹öÀü ÇüÅÂ Ç¥Çö
+	// groupId : ìì‹ ì˜ í”„ë¡œì íŠ¸ë¥¼ ê³ ìœ í•˜ê²Œ ì‹ë³„í•˜ê²Œ í•´ì£¼ëŠ”ê²ƒ. ë‚´ê°€ ì»¨íŠ¸ë¡¤í•˜ëŠ” domain name
+	// artifactId : ì œí’ˆì˜ ì´ë¦„. ë²„ì „ ì •ë³´ë¥¼ ìƒëµí•œ jar íŒŒì¼ì˜ ì´ë¦„ì´ë‹¤. í”„ë¡œì íŠ¸ ì´ë¦„ê³¼ ë™ì¼í•˜ê²Œ ì„¤ì •í•œë‹¤. ì†Œë¬¸ìë§Œ ì‘ì„±, íŠ¹ìˆ˜ë¬¸ìx
+	// version : SNAPSHOT - ê°œë°œìš©, RELEASE - ë°°í¬ìš©, ìˆ«ìì™€ ì ì„ ì‚¬ìš©í•´ ë²„ì „ í˜•íƒœ í‘œí˜„
 
-	// ÄÁÆ®·Ñ + ¾ËÆ® + P : ¸Ş¼Òµå¿¡¼­ º¯¼ö¸¦ ÆÄ¶ó¹ÌÅÍ·Î Ãß°¡ÇÔ
-	// ÄÁÆ®·Ñ + ½¬ÇÁÆ® + ¹æÇâÅ° À§/¾Æ·¡ : ÄÚµåºí·°À» À§/¾Æ·¡·Î ¿òÁ÷ÀÏ ¼ö ÀÖÀ½
+	// ì»¨íŠ¸ë¡¤ + ì•ŒíŠ¸ + P : ë©”ì†Œë“œì—ì„œ ë³€ìˆ˜ë¥¼ íŒŒë¼ë¯¸í„°ë¡œ ì¶”ê°€í•¨
+	// ì»¨íŠ¸ë¡¤ + ì‰¬í”„íŠ¸ + ë°©í–¥í‚¤ ìœ„/ì•„ë˜ : ì½”ë“œë¸”ëŸ­ì„ ìœ„/ì•„ë˜ë¡œ ì›€ì§ì¼ ìˆ˜ ìˆìŒ
+
+	// API :: JSON ë¼ì´ë¸ŒëŸ¬ë¦¬ì—ê²Œ í”„ë¡ì‹œ ê°ì²´ëŠ” JSON ìœ¼ë¡œ ë°”ê¾¸ì§€ ë§ë¼ê³  í•´ì¤Œ
+	// => Hibernate5Module ì„ ì„¤ì¹˜
+	// ê·¸ë¦¬ê³  ë¹ˆìœ¼ë¡œ ë“±ë¡
+	// í•˜ì§€ë§Œ ì–´ì°¨í”¼ ì´ ë°©ë²•ì€ ì—”í‹°í‹°ë¥¼ ì™¸ë¶€ë¡œ ë…¸ì¶œì‹œí‚¤ëŠ” ë°©ë²•ì´ë¯€ë¡œ, ì–´ì°¨í”¼ ì‹¤ë¬´ì—ì„  ì‚¬ìš©X
+	@Bean
+	Hibernate5Module hibernate5Module(){
+		/*
+		Hibernate5Module hibernate5Module = new Hibernate5Module();
+		hibernate5Module.configure(Hibernate5Module.Feature.FORCE_LAZY_LOADING, true);
+		í•˜ë©´ ê°•ì œë¡œ JSON ìƒì„± ì‹œì ì— í”„ë¡ì‹œë„ ëª¨ë‘ ì½ì–´ì™€ë²„ë¦¼.
+		 */
+		return new Hibernate5Module();
+	}
 }

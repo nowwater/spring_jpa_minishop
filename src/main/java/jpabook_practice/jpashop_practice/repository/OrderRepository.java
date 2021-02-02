@@ -38,14 +38,13 @@ public class OrderRepository {
 
         List<Predicate> criteria = new ArrayList<>();
 
-        // ÁÖ¹® »óÅÂ °Ë»ö
+        // ì£¼ë¬¸ ìƒíƒœ ê²€ìƒ‰
         if(orderSearch.getOrderStatus() != null){
             Predicate status = cb.equal(o.get("status"), orderSearch.getOrderStatus());
             criteria.add(status);
         }
 
-        // È¸¿ö ÀÌ¸§ °Ë»ö
-
+        // íšŒì› ì´ë¦„ ê²€ìƒ‰
         if(hasText(orderSearch.getMemberName())){
             Predicate name =
                     cb.like(m.<String>get("name"), "%" + orderSearch.getMemberName() + "%");

@@ -27,8 +27,8 @@ public class Member {
     @Embedded
     private Address address;
 
-    // @JsonIgnore // JSON���� ��ȯ �� �ڵ����� ���� -> ��ƼƼ�� Presentation�� ���� ������ �߰��Ǿ����.. ������ ���
-    @OneToMany(mappedBy = "member") // Order.member �� 1:N ����
+    @JsonIgnore // API 에서 Order와 양방향 연관관계에 잡혀버림 -> 한쪽은 ignore 시켜줘야함
+    @OneToMany(mappedBy = "member") // Order.member 와 1:N 매핑
     private List<Order> orders = new ArrayList<>();
 
     public void changeMember(MemberForm memberForm) {

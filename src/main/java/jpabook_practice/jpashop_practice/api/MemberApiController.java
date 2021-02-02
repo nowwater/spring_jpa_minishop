@@ -17,46 +17,44 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MemberApiController {
 
-    // API ���忡 �´� DTO�� ���� �̸� �Ķ���� �Ǵ� ���信 �������!
+    // API 를 만들 때는 DTO로 만들어서 주고 받아야함 반드시!!
     private final MemberService memberService;
 
-    @GetMapping("/api/v1/members")
-    public List<MemberDTO> membersV1(){
-        return memberService.findMembers(); // JSON ������ ���� [{}, {} ...] ó�� �� ��ü�� 1���� Array�� ����.. -> ������ �������� count ��� ������ �߰��ϰ� �; �Ұ�������
+    @GetMapping("/api/v1/members")  // 엔티티에서 필드에 @JsonIgnore를 붙여주면 해당 정보는 api로 불러오지않음
+    public List<MemberDTO> membersV1(){ // 하지만 그러면 엔티티에 프레젠테이션 계층을 위한 로직이 추가되어버림. 엔티티로 의존관계가 들어와야하는데 나가버림
+        // 엔티티가 바뀌면 API 스펙이 변한다.
+        return memberService.findMembers(); // JSON 형태에서는 Array를 이렇게 표현 - [{}, {} ...] 하지만 Array 형태는 다른 값을 추가할 수 없다. -> 에를 들어 count 라는 필드를 추가하고 싶어도 못넣음
         /* [
                 "data":[{}..{}..],
                 "count": 5
                 ..
-                �̷������� ������ �߰��� �� �ֵ��� ��ȯ�ؾ���.
-                V2 ó�� ������� ����. �ȱ׷� ����Ʈ�� JSON���� ������ �ٷ� Array ó��( [] �� ���δ� ����) ����
-                {} �� �����ֵ��� �������
+
+                객체형태로 {} 안에 감싸져야 안에 추가할 수 있음.
           */
     }
 
     @GetMapping("/api/v2/members")
     public Result membersV2() {
-        // ���� ���� ���� ���� DTO
         List<MemberDTO> findMembers = memberService.findMembers();
 
-        // ���ǿ��� ���� DTO
         List<MemberDto> collect = findMembers.stream()
-                .map(m -> new MemberDto(m.getName())) // ��ƼƼ�� �ٲ�� ���⼭ ������ ������ ���� �� �ִ�.
-                .collect(Collectors.toList());
+                .map(m -> new MemberDto(m.getName())) // API 스펙이 변경되지는 않는다.
+                .collect(Collectors.toList()); // API에 노출하는 대상이 DTO 이므로 API 와 1:1로 매핑이된다.
 
         return new Result(collect.size(), collect); // Result ��� �����⸦ �����ְ� data �ʵ忡 ������ collect ����Ʈ�� ������.
     }
 
     @Data
     @AllArgsConstructor
-    static class Result<T> {
-        private int count; // �̷� ������ count �� JSON ���䰴ü�� �߰��ؼ� ��ȯ�� �� �ִ�!!!!!
+    static class Result<T> { // 오브젝트여서 Result 라는 껍데기를 씌워준다. 안그러면 JSON에서 바로 배열타입으로 나가기 때문에 Object 로 만들어줘야함.
+        private int count; // count 가 JSON {}안에 들어간다!!!!!
         private T data;
     }
 
     @Data
     @AllArgsConstructor
     static class MemberDto {
-        private String name; // ������ ���븸 �������� �� �ִ�.
+        private String name;
     }
 
     @PostMapping("/api/v1/members")
@@ -81,11 +79,12 @@ public class MemberApiController {
     @PutMapping("/api/v2/members/{id}")
     public UpdateMemberResponse updateMemberV2(
             @PathVariable("id") Long id,
-            @RequestBody @Valid UpdateMemberRequest request){ // id�� request���� name�� �Ѿ��.
+            @RequestBody @Valid UpdateMemberRequest request){ // id를 request를 날린다. name�� �Ѿ��.
 
-        // ������ �� �������̸� ���� ������ ����ϴ°� ����!!!
-        memberService.update(id, request.getName());
-        MemberDTO findMember = memberService.findOne(id);
+        // 수정할 땐 가급적이면 변경감지 기능을 사용하자.
+        // 커맨드와 쿼리를 분리함.
+        memberService.update(id, request.getName()); // 커맨드 : 변경
+        MemberDTO findMember = memberService.findOne(id); // 쿼리 : 조회
         return new UpdateMemberResponse(findMember.getId(), findMember.getName());
     }
 
@@ -94,16 +93,17 @@ public class MemberApiController {
         private String name;
     }
 
-    @Data // DTO ���� Lombok ����� ����. ���� ������ �Դٰ��� �ϴ°ſ���!
-    @AllArgsConstructor // �� ������ ��� �Ķ���͸� �� �Ѱ������
+    // Entity 에는 Lombok 어노테이션 사용을 자제하지만,
+    @Data // DTO 에는 Lombok 을 막씀. 크게 로직이 있는게 아니고 데이터만 오고 가기 때문에 실용적인 관점에서 자주 사용!
+    @AllArgsConstructor // 모든 파라미터를 다 넘겨주는 생성자가 필요함!
     static class UpdateMemberResponse {
         private Long id;
         private String name;
     }
 
-    @Data // API ���� Ȯ�� ����
+    @Data
     static class CreateMemberRequest {
-        @NotEmpty // ���⼭ validation�� �����ϴ�
+        @NotEmpty // validation
         private String name;
     }
 

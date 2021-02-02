@@ -35,17 +35,17 @@ public class OrderController {
     @PostMapping(value = "/order")
     public String order(@RequestParam("memberId") Long memberId,
                         @RequestParam("itemId") Long itemId, @RequestParam("count") int count) {
-        // @RequestParam : form¿¡¼­ submitÇßÀ» ¶§ name ¼Ó¼º¿¡ ÇØ´çÇÏ´Â °ªÀ» °¡Á®¿Ã ¼ö ÀÖÀ½
+        // @RequestParam : formì—ì„œ submití–ˆì„ ë•Œ name ì†ì„±ì— í•´ë‹¹í•˜ëŠ” ê°’ì„ ê°€ì ¸ì˜¬ ìˆ˜ ìžˆìŒ
         Long orderId = orderService.order(memberId, itemId, count);
 
-        // ÇÙ½É ºñÁî´Ï½º ·ÎÁ÷Àº service¿¡¼­ @Transactinal ¾È¿¡¼­ ¼öÇàÇÏ´Â°Ô ÁÁ´Ù
-        // Controller¿¡¼­´Â ½Äº°ÀÚ¸¸ Àü´ÞÇØÁà¼­ ¼öÇà
-        // ¿µ¼Ó ÄÁÅØ½ºÆ®µµ À¯ÁöÇÏ¸é¼­ ½ÇÇàÇÏ±â ¶§¹®¿¡, Æ¯ÀÌ»çÇ×¿¡ ´ëÇØ °ª º¯°æµµ °¡´ÉÇÏ´Ù.
+        // í•µì‹¬ ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§ì€ serviceì—ì„œ @Transactinal ì•ˆì—ì„œ ìˆ˜í–‰í•˜ëŠ”ê²Œ ì¢‹ë‹¤
+        // Controllerì—ì„œëŠ” ì‹ë³„ìžë§Œ ì „ë‹¬í•´ì¤˜ì„œ ìˆ˜í–‰
+        // ì˜ì† ì»¨í…ìŠ¤íŠ¸ë„ ìœ ì§€í•˜ë©´ì„œ ì‹¤í–‰í•˜ê¸° ë•Œë¬¸ì—, íŠ¹ì´ì‚¬í•­ì— ëŒ€í•´ ê°’ ë³€ê²½ë„ ê°€ëŠ¥í•˜ë‹¤.
 
-        return "redirect:/orders";// + orderId; // ÁÖ¹®»óÇ°À¸·Î ¸®´ÙÀÌ·ºÆ®
+        return "redirect:/orders";// + orderId; // ì£¼ë¬¸ìƒí’ˆìœ¼ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
     }
 
-    @GetMapping("/orders")//@ModelAttribute("") -> model.addAttribute("orderSearch", ~) ¸¦ »ý·«ÇÑ °Í
+    @GetMapping("/orders")//@ModelAttribute("") -> model.addAttribute("orderSearch", ~) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model){
         List<Order> orders = orderService.findOrders(orderSearch);
         model.addAttribute("orders", orders);

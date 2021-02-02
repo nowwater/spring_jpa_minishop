@@ -20,49 +20,48 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
-    // ÁÖ¹®
-    @Transactional // µ¥ÀÌÅÍ º¯°æ
+    // ì£¼ë¬¸
+    @Transactional // ë°ì´í„° ë³€ê²½
     public Long order(Long memberId, Long itemId, int count){
-        // ¿£Æ¼Æ¼ Á¶È¸
+        // ì—”í‹°í‹° ì¡°íšŒ
         Member member = memberRepository.findOne(memberId);
         Item item = itemRepository.findOne(itemId);
 
-        // ¹è¼ÛÁ¤º¸ »ı¼º
+        // ë°°ì†¡ì •ë³´ ìƒì„±
         Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());
 
-        // ÁÖ¹®»óÇ° »ı¼º
+        // ì£¼ë¬¸ìƒí’ˆ ìƒì„±
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
         
-        // ÁÖ¹® »ı¼º
+        // ì£¼ë¬¸ ìƒì„±
         Order order = Order.createOrder(member, delivery, orderItem);
 
-        // ÁÖ¹® ÀúÀå
-        orderRepository.save(order);// Æ®·£Àè¼ÇÀÌ Ä¿¹ÔµÇ´Â ½ÃÁ¡¿¡ flush°¡ ¹ß»ıÇÏ¸é insert Äõ¸®°¡ ³¯¾Æ°¨.
+        // ì£¼ë¬¸ ì €ì¥
+        orderRepository.save(order);// íŠ¸ëœì­ì…˜ì´ ì»¤ë°‹ë˜ëŠ” ì‹œì ì— flushê°€ ë°œìƒí•˜ë©´ insert ì¿¼ë¦¬ê°€ ë‚ ì•„ê°.
         return order.getId();
     }
 
-    // Ãë¼Ò
+    // ì·¨ì†Œ
     @Transactional
     public void cancelOrder(Long orderId){
-        // ÁÖ¹® ¿£Æ¼Æ¼ Á¶È¸
+        // ì£¼ë¬¸ ì—”í‹°í‹° ì¡°íšŒ
         Order order = orderRepository.findOne(orderId);
-        // ÁÖ¹® Ãë¼Ò
+        // ì£¼ë¬¸ ì·¨ì†Œ
         order.cancel();
     }
 
-    // °Ë»ö
+    // ê²€ìƒ‰
     public List<Order> findOrders(OrderSearch orderSearch){
         return orderRepository.findAllByCriteria(orderSearch);
     }
 
     /*
-    µµ¸ŞÀÎ ¸ğµ¨ ÆĞÅÏ
-    ¿£Æ¼Æ¼°¡ ºñÁî´Ï½º ·ÎÁ÷À» °¡Áö°í °´Ã¼ ÁöÇâÀÇ Æ¯¼ºÀ» Àû±Ø È°¿ëÇÏ´Â °Í
-    ¼­ºñ½º °èÃşÀº ´Ü¼øÈ÷ ¿£Æ¼Æ¼¿¡ ÇÊ¿äÇÑ ¿äÃ»À» À§ÀÓÇÏ´Â ¿ªÇÒ.
-
-    Æ®·£Àè¼Ç ½ºÅ©¸³Æ® ÆĞÅÏ
-    ¿£Æ¼Æ¼¿¡ ºñÁî´Ï½º ·ÎÁ÷ÀÌ °ÅÀÇ ¾ø°í ¼­ºñ½º °èÃş¿¡¼­ ´ëºÎºĞÀÇ ºñÁî´Ï½º ·ÎÁ÷À» Ã³¸®ÇÏ´Â °Í
-    ÀÏ¹İÀûÀ¸·Î SQL ¹æ½ÄÀ» ½á¼­ Âß ½á³»·Á°¡¸é¼­ Â¥´Â ¹æ¹ı
+    ë„ë©”ì¸ ëª¨ë¸ íŒ¨í„´
+    ì—”í‹°í‹°ê°€ ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§ì„ ê°€ì§€ê³  ê°ì²´ ì§€í–¥ì˜ íŠ¹ì„±ì„ ì ê·¹ í™œìš©í•˜ëŠ” ê²ƒ
+    ì„œë¹„ìŠ¤ ê³„ì¸µì€ ë‹¨ìˆœíˆ ì—”í‹°í‹°ì— í•„ìš”í•œ ìš”ì²­ì„ ìœ„ì„í•˜ëŠ” ì—­í• .
+    íŠ¸ëœì­ì…˜ ìŠ¤í¬ë¦½íŠ¸ íŒ¨í„´
+    ì—”í‹°í‹°ì— ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§ì´ ê±°ì˜ ì—†ê³  ì„œë¹„ìŠ¤ ê³„ì¸µì—ì„œ ëŒ€ë¶€ë¶„ì˜ ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§ì„ ì²˜ë¦¬í•˜ëŠ” ê²ƒ
+    ì¼ë°˜ì ìœ¼ë¡œ SQL ë°©ì‹ì„ ì¨ì„œ ì­‰ ì¨ë‚´ë ¤ê°€ë©´ì„œ ì§œëŠ” ë°©ë²•
      */
 }

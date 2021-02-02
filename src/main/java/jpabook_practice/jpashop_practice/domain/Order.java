@@ -22,27 +22,27 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="member_id") // FK ÀÌ¸§
+    @ManyToOne(fetch = LAZY) // ì§€ì—° ë¡œë”© : Memberë¥¼ ìƒì†ë°›ì€ ProxyMember ê°ì²´ë¥¼ ë°›ì•„ì™€ì„œ ê°€ì§€ê³ ìˆìŒ
+    @JoinColumn(name="member_id") // FK ì´ë¦„
     private Member member;
 
-    // OrderItem.order ¿¡ ÀÇÇØ ¸ÅÇÎ
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // cascade ¸¦ ÅëÇØ persist ¸¦ ÀüÆÄ
-    // ¸ğµç ¿£Æ¼Æ¼´Â ÀúÀåÇÏ·Á¸é °¢°¢ persist ÇØÁà¾ßÇÔ.
+    // OrderItem.order ì— ì˜í•´ ë§¤í•‘, 1:N ì€ ê¸°ë³¸ì´ Lazyì„
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // cascade ë¥¼ í†µí•´ persist ë¥¼ ì „íŒŒ
+    // ëª¨ë“  ì—”í‹°í‹°ëŠ” ì €ì¥í•˜ë ¤ë©´ ê°ê° persist í•´ì¤˜ì•¼í•¨.
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
-    // => access¸¦ ¸¹ÀÌ ÇÏ´Â ÂÊ(¿¬°ü°ü°èÀÇ ÁÖÀÎ)¿¡ FK¸¦ µÎ´Â°Ô À¯¸®ÇÔ!
+    // => accessë¥¼ ë§ì´ í•˜ëŠ” ìª½(ì—°ê´€ê´€ê³„ì˜ ì£¼ì¸)ì— FKë¥¼ ë‘ëŠ”ê²Œ ìœ ë¦¬í•¨!
 
-    private LocalDateTime orderDate; // ÁÖ¹® ½Ã°£
+    private LocalDateTime orderDate; // ì£¼ë¬¸ ì‹œê°„
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status; // ÁÖ¹® »óÅÂ : [ORDER, CANCEL]
+    private OrderStatus status; // ì£¼ë¬¸ ìƒíƒœ : [ORDER, CANCEL]
 
-    //==»ı¼º ¸Ş¼­µå==// ÀåÁ¡ : º¯°æ»çÇ×ÀÌ ÀÖÀ¸¸é ¿©±â¸¸ °íÄ¡¸é ‰Î!!!
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems){ // ...Àº ¿©·Á°³ ³Ñ±æ ¼ö ÀÖÀ½
+    //==ìƒì„± ë©”ì„œë“œ==// ì¥ì  : ë³€ê²½ì‚¬í•­ì´ ìˆìœ¼ë©´ ì—¬ê¸°ë§Œ ê³ ì¹˜ë©´ ë¨!!!
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems){  // ...ì€ ì—¬ë ¤ê°œ ë„˜ê¸¸ ìˆ˜ ìˆìŒ
         Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);
@@ -54,42 +54,43 @@ public class Order {
         return order;
     }
 
-    //==¿¬°ü°ü°è ¸Ş¼­µå==//
-    // ¾ç¹æÇâ¿¡ µ¥ÀÌÅÍ°¡ Ãß°¡µÇ¾î¾ßÇÏ´Â °ü°èµé. ÄÁÆ®·ÑÇÏ´ÂÂÊ¿¡ Ãß°¡ÇØÁÖ´Â °ÍÀÌ ÁÁ´Ù.
-    // Order¿Í Member
+
+    //==ì—°ê´€ê´€ê³„ ë©”ì„œë“œ==//
+    // ì–‘ë°©í–¥ì— ë°ì´í„°ê°€ ì¶”ê°€ë˜ì–´ì•¼í•˜ëŠ” ê´€ê³„ë“¤. ì»¨íŠ¸ë¡¤í•˜ëŠ”ìª½ì— ì¶”ê°€í•´ì£¼ëŠ” ê²ƒì´ ì¢‹ë‹¤.
+    // Orderì™€ Member
     public void setMember(Member member) {
         this.member = member;
         member.getOrders().add(this);
     }
 
-    // Order¿Í OrderItem
+    // Orderì™€ OrderItem
     public void addOrderItem(OrderItem orderItem){
         orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
 
-    // Order¿Í Delivery
+    // Orderì™€ Delivery
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
 
-    //==ºñÁî´Ï½º ·ÎÁ÷==//
+    //==ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§==//
     /*
-    ÁÖ¹® Ãë¼Ò
+    ì£¼ë¬¸ ì·¨ì†Œ
      */
     public void cancel(){
-        if(delivery.getStatus() == DeliveryStatus.COMP) // ÀÌ¹Ì ¹è¼Û ¿Ï·á
-            throw new IllegalStateException("ÀÌ¹Ì ¹è¼Û¿Ï·áµÈ »óÇ°Àº Ãë¼Ò°¡ ºÒ°¡´ÉÇÕ´Ï´Ù.");
+        if(delivery.getStatus() == DeliveryStatus.COMP) // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
+            throw new IllegalStateException("ï¿½Ì¹ï¿½ ï¿½ï¿½Û¿Ï·ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½Ò°ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         this.setStatus(OrderStatus.CANCEL);
         for(OrderItem orderItem : orderItems){
             orderItem.cancel();
         }
     }
 
-    //==Á¶È¸ ·ÎÁ÷==//
+    //==ì¡°íšŒ ë¡œì§==//
     /*
-    ÀüÃ¼ ÁÖ¹® °¡°İ Á¶È¸
+    ì „ì²´ ì£¼ë¬¸ ê°€ê²© ì¡°íšŒ
      */
     public int getTotalPrice(){
         int totalPrice = 0;

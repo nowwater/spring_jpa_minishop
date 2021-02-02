@@ -1,4 +1,5 @@
 package jpabook_practice.jpashop_practice.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,16 +14,16 @@ public class Delivery {
     @Column(name="delivery_id") // PK
     private Long id;
 
-    // order.delivery¸¦ °¡Á®¿È.
+    @JsonIgnore // API ì—ì„œ Orderì™€ ì–‘ë°©í–¥ ì—°ê´€ê´€ê³„ì— ì¡í˜€ë²„ë¦¼ -> í•œìª½ì€ ignore ì‹œì¼œì¤˜ì•¼í•¨
     @OneToOne(mappedBy = "delivery", fetch = LAZY)
     private Order order;
 
     @Embedded
     private Address address;
 
-    @Enumerated(EnumType.STRING)// default: ORDINAL - 1, 2, 3, 4 ... ¼ıÀÚ·Î µé¾î°¨
-    // »óÅÂ »çÀÌ¿¡ ¹º°¡ Ãß°¡µÇ¸é COMP°¡ 2¿´´Âµ¥ ´Ù¸¥°Ô 2°¡ µÇ¼­ ¸ÁÇØ¹ö¸²..
-    // ORDINAL Àı´ë ¾²¸é ¾ÈµÊ!!!!!!!!
-    // STRING À¸·Î ÇØ¾ß ´Ù¸¥°Ô Ãß°¡µÇ¾îµµ ¼ø¼­°¡ ¹Ğ¸®Áö¾ÊÀ½.
-    private DeliveryStatus status; // READY(¹è¼ÛÁØºñ), COMP(¹è¼Û)
+    @Enumerated(EnumType.STRING)// default: ORDINAL - 1, 2, 3, 4 ... ìˆ«ìë¡œ ë“¤ì–´ê°
+    // ìƒíƒœ ì‚¬ì´ì— ë­”ê°€ ì¶”ê°€ë˜ë©´ COMPê°€ 2ì˜€ëŠ”ë° ë‹¤ë¥¸ê²Œ 2ê°€ ë˜ì„œ ë§í•´ë²„ë¦¼..
+    // ORDINAL ì ˆëŒ€ ì“°ë©´ ì•ˆë¨!!!!!!!!
+    // STRING ìœ¼ë¡œ í•´ì•¼ ë‹¤ë¥¸ê²Œ ì¶”ê°€ë˜ì–´ë„ ìˆœì„œê°€ ë°€ë¦¬ì§€ì•ŠìŒ.
+    private DeliveryStatus status; // READY(ë°°ì†¡ì¤€ë¹„), COMP(ë°°ì†¡)
 }
