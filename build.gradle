@@ -1,10 +1,10 @@
-//querydsl Ãß°¡
+//querydsl ï¿½ß°ï¿½
 
 plugins {
 	id 'org.springframework.boot' version '2.4.1'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
-	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	//id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -28,18 +28,26 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'com.querydsl:querydsl-jpa' // queryDSL Ãß°¡
-	implementation 'com.querydsl:querydsl-apt' // queryDSL Ãß°¡
+	//implementation 'com.querydsl:querydsl-jpa' // queryDSL ï¿½ß°ï¿½
+	//implementation 'com.querydsl:querydsl-apt' // queryDSL ï¿½ß°ï¿½
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// swagger
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
+
 }
 
 test {
 	useJUnitPlatform()
 }
-//querydsl Ãß°¡
+
+
+/*
+//querydsl ï¿½ß°ï¿½
 //def querydslDir = 'src/main/generated'
 def querydslDir = "$buildDir/generated/querydsl"
 querydsl {
@@ -59,4 +67,4 @@ compileQuerydsl{
 }
 configurations {
 	querydsl.extendsFrom compileClasspath
-}
+}*/
