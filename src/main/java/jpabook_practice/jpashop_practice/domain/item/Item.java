@@ -16,6 +16,7 @@ import java.util.List;
 // SINGLE_TABLE : 한 테이블에 다 때려 박음
 // TABLE_PER_CLASS : 지금처럼 Book, Album, Movie 로 테이블을 나눠놓은것
 @Getter
+@Setter // 나중에 빼기
 public abstract class Item {
 
     @Id @GeneratedValue

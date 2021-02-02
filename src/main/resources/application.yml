@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create # 애플리케이션 실행시점에 테이블 다 지우고, 다시 생성
+      ddl-auto: create # none : 테이블 드랍하지 않음  create: 애플리케이션 실행시점에 테이블 다 지우고, 다시 생성
     properties:
       hibernate:
         #show_sql: true  - System.out 으로 로그를 찍음
@@ -17,3 +17,8 @@ logging:
   level:
     org.hibernate.SQL: debug #로거를 통해서 로그를 남김.
     org.hibernate.type: trace # 로그에 쿼리 파라미터를 ? 대신에 구체적으로 남겨줌
+
+server:
+  error:
+    include-stacktrace: always
+    include-message: always # 붙여줘야 요청 시 에러 메세지를 항상 띄워줌

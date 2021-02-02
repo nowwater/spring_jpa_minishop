@@ -1,10 +1,8 @@
 package jpabook_practice.jpashop_practice.repository;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
+//import com.querydsl.core.types.dsl.BooleanExpression;
 import jpabook_practice.jpashop_practice.domain.Order;
 import jpabook_practice.jpashop_practice.domain.OrderStatus;
-import jpabook_practice.jpashop_practice.domain.QMember;
-import jpabook_practice.jpashop_practice.domain.QOrder;
 import jpabook_practice.jpashop_practice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
