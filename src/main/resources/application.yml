@@ -10,6 +10,7 @@ spring:
       ddl-auto: create # none : 테이블 드랍하지 않음  create: 애플리케이션 실행시점에 테이블 다 지우고, 다시 생성
     properties:
       hibernate:
+        default_batch_fetch_size: 100 # 총 데이터가 1000개 되면, 총 10번의 IN 쿼리가 날아감. 미리 100개씩 가져옴. 101번째 되면 다시 100개 가져옴.
         #show_sql: true  - System.out 으로 로그를 찍음
         format_sql: true
 

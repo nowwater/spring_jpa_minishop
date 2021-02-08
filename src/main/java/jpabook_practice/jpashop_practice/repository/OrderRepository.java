@@ -1,7 +1,10 @@
 package jpabook_practice.jpashop_practice.repository;
 
 //import com.querydsl.core.types.dsl.BooleanExpression;
+import jpabook_practice.jpashop_practice.domain.Address;
 import jpabook_practice.jpashop_practice.domain.Order;
+import jpabook_practice.jpashop_practice.domain.OrderStatus;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +64,30 @@ public class OrderRepository {
                         " join fetch o.member m" + // order를 가져올 때 member 까지 같이 가져옴
                         " join fetch o.delivery d", Order.class // order를 가져올 때 delivery 까지 같이 가져옴
         ).getResultList();
+    }
+
+
+
+    public List<Order> findAllWithItem() {
+        return em.createQuery( // DB 에서 distict 는 한 줄이 전부 똑같아야 중복이 제거됨
+                "select distinct o from Order o " + // JPA 에서는 ID가 같으면 중복을 제거해줌
+                        // - 엔티티가 중복인 경우 중복을 걸러서 컬렉션에 담아준다!! DB에 select 에서 distinct도 붙여줌.
+                        "join fetch o.member m " + // 안해주면 order 조회가 4번됨 (orderItem 이 2개씩 있는거가 각각 조인되서)
+                        "join fetch o.delivery d " +
+                        "join fetch o.orderItems oi " +
+                        "join fetch oi.item i ", Order.class)
+                .getResultList();
+    }
+    // 위에는 쿼리가 한개로 다 JOIN 해서 가져옴, 데이터 중복이 너무 많음(데이터 뻥튀기, 용량이 큼). 페이징이 불가능
+    // 밑에는 쿼리 개수가 좀 늘어났지만, 데이터 중복이 없음(데이터 최적화, 용량이 적음). 페이징이 가능.
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery( // DB 에서 distict 는 한 줄이 전부 똑같아야 중복이 제거됨
+                "select distinct o from Order o " +
+                        "join fetch o.member m " + // ToOne 은 아무리 Fetch join 해도 문제 X
+                        "join fetch o.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
     }
 
     // 사실 성능 차이는 조회보다는 where 에서 조건 또는 JOIN 에서 많이 나기 떄문에, V3 와 V4는 크게 성능차이가 안남..

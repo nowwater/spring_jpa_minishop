@@ -26,8 +26,9 @@ public class JpashopPracticeApplication {
 	// 하지만 어차피 이 방법은 엔티티를 외부로 노출시키는 방법이므로, 어차피 실무에선 사용X
 	@Bean
 	Hibernate5Module hibernate5Module(){
-		/*
+		// 기본 설정 : LAZY 로딩을 해서 프록시가 정상적으로 초기화 된 데이터만 API가 반환함
 		Hibernate5Module hibernate5Module = new Hibernate5Module();
+		/*
 		hibernate5Module.configure(Hibernate5Module.Feature.FORCE_LAZY_LOADING, true);
 		하면 강제로 JSON 생성 시점에 프록시도 모두 읽어와버림.
 		 */
