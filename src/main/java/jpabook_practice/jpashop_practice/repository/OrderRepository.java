@@ -1,27 +1,34 @@
 package jpabook_practice.jpashop_practice.repository;
-
-//import com.querydsl.core.types.dsl.BooleanExpression;
-import jpabook_practice.jpashop_practice.domain.Address;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jpabook_practice.jpashop_practice.domain.*;
 import jpabook_practice.jpashop_practice.domain.Order;
-import jpabook_practice.jpashop_practice.domain.OrderStatus;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jpabook_practice.jpashop_practice.domain.QMember.member;
+import static jpabook_practice.jpashop_practice.domain.QOrder.order;
 import static org.springframework.util.StringUtils.hasText;
 
 @Repository
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class OrderRepository {
     private final EntityManager em;
+    private final JPAQueryFactory query;
+
+    public OrderRepository(EntityManager em) {
+        this.em = em;
+        this.query = new JPAQueryFactory(em);
+    }
 
     public void save(Order order){
         em.persist(order);
@@ -29,6 +36,34 @@ public class OrderRepository {
 
     public Order findOne(Long id){
         return em.find(Order.class, id);
+    }
+
+    //QueryDSL -> 컴파일 시점에 오타가 다 잡힌다는 큰 장점
+    public List<Order> findAll(OrderSearch orderSearch){
+        /*JPAQueryFactory query = new JPAQueryFactory(em); // 위에 생성자 주입방식으로 받아 써도됨. private final JPAQuery~~
+        QOrder order = QOrder.order; // 이건 static import 로 없앨 수 있음
+        QMember member = QMember.member;*/
+
+        return query.select(order)
+                .from(order)
+                .join(order.member, member) // order.member를 조인하는데 alias 로 member 를 준다
+                .where(statusEq(orderSearch.getOrderStatus()), nameLike(orderSearch.getMemberName()))
+                .limit(1000)
+                .fetch();
+    }
+
+    private BooleanExpression nameLike(String memberName) {
+        if(!StringUtils.hasText(memberName)){
+            return null;
+        }
+        return member.name.like(memberName);
+    }
+
+    private BooleanExpression statusEq(OrderStatus statusCond){
+        if(statusCond == null) { // 이 경우를 처리하기 위해 따로 뺴내서 동적쿼리로 사용
+            return null;
+        }
+        return order.status.eq(statusCond);
     }
 
     public List<Order> findAllByCriteria(OrderSearch orderSearch){
@@ -66,8 +101,6 @@ public class OrderRepository {
         ).getResultList();
     }
 
-
-
     public List<Order> findAllWithItem() {
         return em.createQuery( // DB 에서 distict 는 한 줄이 전부 똑같아야 중복이 제거됨
                 "select distinct o from Order o " + // JPA 에서는 ID가 같으면 중복을 제거해줌
@@ -103,32 +136,5 @@ public class OrderRepository {
         // DTO 와 바로 매핑되지 않는다.
         // JPA는 기본적으로 엔티티나 Value Object만 반환할 수 있음.
         // 따라서 new 오퍼레이션을 사용해야함
-    }*/
-
-    /*public List<Order> findAll(OrderSearch orderSearch){
-        QOrder order = QOrder.order;
-        QMember member = QMember.member;
-
-        return query
-                .select(order)
-                .from(order)
-                .join(order.member, member)
-                .where(statusEq(orderSearch.getOrderStatus())),
-                        nameLike(orderSearch.getMemberName()))
-                .limit(1000)
-                .fetch();
-    }
-
-    private BooleanExpression statusEq(OrderStatus statusCond) {
-        if (statusCond == null) {
-            return null;
-        }
-        return order.status.eq(statusCond);
-    }
-    private BooleanExpression nameLike(String nameCond) {
-        if (!StringUtils.hasText(nameCond)) {
-            return null;
-        }
-        return member.name.like(nameCond);
     }*/
 }

@@ -48,7 +48,7 @@ public class MemberService {
     }
 
     public MemberDTO findOne(Long memberId){
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findById(memberId).get(); // Optional 로 반환하므로 get()을 써줘야함.
         MemberDTO memberDTO = new MemberDTO(member.getName(), member.getId(), member.getAddress());
         return memberDTO;
     }
@@ -56,7 +56,7 @@ public class MemberService {
     // api 에서 사용하는 메서드
     @Transactional
     public void update(Long id, String name) {
-        Member member = memberRepository.findOne(id);
+        Member member = memberRepository.findById(id).get();
         member.setName(name); // 영속 상태의 member의 이름을 바꿈 -> @Transactional AOP 가 끝나는 시점에 커밋. 그 때 JPA가 플러시, 영속성 컨텍스트 커밋.  DB 커밋!
     }
 }
